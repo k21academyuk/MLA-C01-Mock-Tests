@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AWS Certified Machine Learning Engineer – Associate (MLA-C01) — Mock Test 3 — K21 Academy Exam Simulator</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & TOKENS ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green:      #8DC63F;
+  --green-mid:  #79B030;
+  --green-bg:   #F1F8E8;
+  --green-dark: #4A7A1B;
+  --navy:       #1A1248;
+  --navy-mid:   #2E2080;
+  --navy-light: #F0EEF8;
+  --bg:         #F0F2F5;
+  --surface:    #FFFFFF;
+  --border:     #DDE1E8;
+  --text-1:     #111827;
+  --text-2:     #4B5563;
+  --text-3:     #9CA3AF;
+  --orange:     #FF9900;
+  --orange-dk:  #E07B00;
+  --red:        #DC2626;
+  --red-bg:     #FEF2F2;
+  --amber:      #D97706;
+  --amber-bg:   #FFFBEB;
+  --correct:    #16A34A;
+  --correct-bg: #F0FDF4;
+  --wrong:      #DC2626;
+  --wrong-bg:   #FEF2F2;
+  --radius:     10px;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,.08);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.10);
+}
+html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text-1); -webkit-font-smoothing: antialiased; }
+button { font-family: 'DM Sans', sans-serif; }
+
+/* ===== TOP HEADER BAR ===== */
+.exam-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  background: var(--navy);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; height: 58px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+}
+.exam-header-logo { display: flex; align-items: center; gap: 12px; }
+.exam-header-logo .logo-badge {
+  background: var(--green); color: #fff; font-weight: 800;
+  font-size: 12px; padding: 4px 9px; border-radius: 6px; letter-spacing: .04em;
+}
+.exam-header-logo .exam-title { color: #fff; font-size: 13.5px; font-weight: 600; line-height: 1.3; }
+.exam-header-logo .exam-title span { color: var(--green); }
+.exam-header-meta { display: flex; align-items: center; gap: 20px; }
+.meta-pill {
+  display: flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.15);
+  border-radius: 8px; padding: 5px 12px; color: #fff; font-size: 13px; font-weight: 500;
+}
+.meta-pill .label { color: rgba(255,255,255,.55); font-size: 11px; font-weight: 500; margin-right: 2px; }
+.meta-pill.timer-pill { min-width: 110px; }
+.timer-val { font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.timer-val.warning { color: #F87171; animation: blink .8s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.5} }
+
+/* ===== LAYOUT ===== */
+.exam-layout {
+  display: flex; padding-top: 58px; min-height: 100vh;
+}
+.exam-main {
+  flex: 1; min-width: 0;
+  padding: 28px 28px 120px 28px;
+  max-width: 900px;
+}
+.exam-sidebar {
+  width: 280px; flex-shrink: 0;
+  padding: 20px 16px 80px 0;
+  position: sticky; top: 58px; height: calc(100vh - 58px);
+  overflow-y: auto;
+}
+
+/* ===== QUESTION CARD ===== */
+.question-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 28px 30px;
+  box-shadow: var(--shadow-sm);
+  animation: fadeIn .22s ease;
+}
+@keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+.q-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+.q-num-badge {
+  background: var(--navy); color: #fff; font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 100px;
+}
+.q-tags { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; }
+.domain-tag {
+  background: var(--navy-light); color: var(--navy-mid); font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px; letter-spacing: .02em;
+}
+.multi-tag {
+  background: #FFF3CD; color: #7B5000; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 100px;
+}
+
+.question-text {
+  font-size: 15.5px; font-weight: 600; line-height: 1.65; color: var(--text-1);
+  margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1.5px solid var(--border);
+}
+.multi-notice {
+  background: #FFF8E7; border: 1px solid #FFD97A; border-radius: 8px;
+  padding: 8px 14px; font-size: 13px; font-weight: 600; color: #7B5000;
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+
+/* OPTIONS */
+.options-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.option-item {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 16px; border: 2px solid var(--border);
+  border-radius: 10px; cursor: pointer; background: #FAFBFC;
+  transition: border-color .18s, background .18s, transform .12s;
+  user-select: none;
+}
+.option-item:hover { border-color: var(--navy-mid); background: var(--navy-light); transform: translateX(2px); }
+.option-item.selected { border-color: var(--navy); background: var(--navy-light); }
+.option-item.correct-ans { border-color: var(--correct); background: var(--correct-bg); }
+.option-item.wrong-ans   { border-color: var(--wrong);   background: var(--wrong-bg);   }
+.option-item.no-select   { cursor: default; }
+.option-item.no-select:hover { transform: none; }
+
+.opt-letter {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; margin-top: 1px;
+  background: var(--border); color: var(--text-2);
+  transition: background .18s, color .18s;
+}
+.option-item.selected .opt-letter { background: var(--navy); color: #fff; }
+.option-item.correct-ans .opt-letter { background: var(--correct); color: #fff; }
+.option-item.wrong-ans   .opt-letter { background: var(--wrong); color: #fff; }
+
+.opt-label { font-size: 14.5px; line-height: 1.55; color: var(--text-1); flex: 1; padding-top: 2px; }
+.opt-icon { font-size: 17px; margin-top: 3px; flex-shrink: 0; }
+
+/* EXPLANATION */
+.explanation-box {
+  margin-top: 20px; padding: 16px 18px;
+  background: #EFF6FF; border: 1.5px solid #BFDBFE;
+  border-radius: 10px; display: none;
+}
+.explanation-box.show { display: block; }
+.exp-header { font-size: 13px; font-weight: 800; color: #1D4ED8; margin-bottom: 6px; letter-spacing: .02em; }
+.exp-text { font-size: 14px; line-height: 1.65; color: #1E3A8A; }
+
+/* Q NAV BUTTONS */
+.q-nav-btns {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 24px; flex-wrap: wrap; gap: 12px;
+}
+.btn-flag {
+  display: flex; align-items: center; gap: 7px;
+  background: transparent; border: 2px solid var(--amber);
+  color: var(--amber); font-size: 13px; font-weight: 700;
+  padding: 9px 16px; border-radius: 8px; cursor: pointer;
+  transition: background .18s, color .18s;
+}
+.btn-flag:hover, .btn-flag.flagged { background: var(--amber-bg); }
+.btn-flag.flagged { border-color: var(--amber); color: var(--amber); }
+.btn-flag.flagged::before { content: '🚩 '; }
+
+.btn-nav {
+  background: var(--navy); color: #fff; border: none;
+  font-size: 14px; font-weight: 700; padding: 11px 22px;
+  border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+  transition: background .18s, transform .12s;
+}
+.btn-nav:hover { background: var(--navy-mid); transform: translateY(-1px); }
+.btn-nav:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+.btn-nav.prev { background: var(--surface); color: var(--navy); border: 2px solid var(--border); }
+.btn-nav.prev:hover { border-color: var(--navy); }
+
+/* ===== SIDEBAR ===== */
+.sidebar-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 16px; margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+}
+.sidebar-title { font-size: 11.5px; font-weight: 800; color: var(--text-3); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+
+/* Question Navigator Grid */
+.nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+.nav-btn {
+  width: 100%; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 700; border-radius: 7px;
+  cursor: pointer; border: 2px solid var(--border);
+  background: var(--surface); color: var(--text-2);
+  transition: all .15s; position: relative;
+}
+.nav-btn:hover { border-color: var(--navy); color: var(--navy); }
+.nav-btn.current { border-color: var(--navy); background: var(--navy); color: #fff; }
+.nav-btn.answered { border-color: var(--green); background: var(--green-bg); color: var(--green-dark); }
+.nav-btn.flagged-q { border-color: var(--amber); }
+.nav-btn.flagged-q::after {
+  content: ''; position: absolute; top: 1px; right: 1px;
+  width: 6px; height: 6px; background: var(--amber); border-radius: 50%;
+}
+.nav-btn.answered.flagged-q { background: var(--green-bg); }
+.nav-btn.correct-r { border-color: var(--correct); background: var(--correct-bg); color: var(--correct); }
+.nav-btn.wrong-r   { border-color: var(--wrong);   background: var(--wrong-bg);   color: var(--wrong);   }
+
+/* Legend */
+.legend { display: flex; flex-direction: column; gap: 7px; }
+.legend-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-2); }
+.legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; border: 1.5px solid transparent; }
+.ld-ans  { background: var(--green-bg); border-color: var(--green); }
+.ld-cur  { background: var(--navy); border-color: var(--navy); }
+.ld-flag { background: var(--surface); border-color: var(--amber); position:relative; }
+.ld-flag::after { content:''; position:absolute; top:-1px; right:-1px; width:5px; height:5px; background:var(--amber); border-radius:50%; }
+.ld-unan { background: var(--surface); border-color: var(--border); }
+
+/* Stats */
+.stat-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed var(--border); font-size: 13px; }
+.stat-row:last-child { border-bottom: none; }
+.stat-label { color: var(--text-2); }
+.stat-val { font-weight: 700; color: var(--text-1); }
+
+/* Submit button in sidebar */
+.btn-submit-sidebar {
+  width: 100%; padding: 13px; background: var(--green); color: #fff;
+  font-size: 14px; font-weight: 800; border: none; border-radius: 10px;
+  cursor: pointer; transition: background .18s, transform .12s;
+  letter-spacing: .01em;
+}
+.btn-submit-sidebar:hover { background: var(--green-mid); transform: translateY(-1px); }
+.btn-submit-sidebar:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ===== START SCREEN ===== */
+#start-screen {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 40px 20px;
+}
+.start-container {
+  background: var(--surface); border-radius: 20px; padding: 44px 40px;
+  max-width: 680px; width: 100%; box-shadow: 0 12px 40px rgba(0,0,0,.12);
+  text-align: center;
+}
+.start-logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 28px; }
+.start-logo-badge { background: var(--navy); color: #fff; font-weight: 800; font-size: 14px; padding: 8px 14px; border-radius: 8px; }
+.start-logo-badge span { color: var(--green); }
+.cert-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--navy-light); color: var(--navy-mid); font-size: 12px; font-weight: 700;
+  padding: 5px 14px; border-radius: 100px; margin-bottom: 16px; letter-spacing: .04em;
+}
+.start-h1 { font-size: clamp(22px, 3vw, 30px); font-weight: 800; color: var(--navy); line-height: 1.2; margin-bottom: 10px; }
+.start-h1 span { color: var(--green-mid); }
+.start-sub { font-size: 15px; color: var(--text-2); line-height: 1.6; margin-bottom: 28px; }
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; text-align: left; margin-bottom: 28px; }
+.info-item-box {
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 14px 16px;
+}
+.info-item-box .i-label { font-size: 11px; font-weight: 700; color: var(--text-3); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 4px; }
+.info-item-box .i-val { font-size: 15px; font-weight: 700; color: var(--text-1); }
+
+.domain-table { text-align: left; width: 100%; border-collapse: collapse; margin-bottom: 28px; }
+.domain-table th { font-size: 11px; font-weight: 700; color: var(--text-3); letter-spacing: .07em; text-transform: uppercase; padding: 6px 10px; border-bottom: 2px solid var(--border); }
+.domain-table td { font-size: 13.5px; color: var(--text-2); padding: 8px 10px; border-bottom: 1px solid var(--border); }
+.domain-table td:last-child { font-weight: 700; color: var(--navy-mid); text-align: right; }
+
+.rules-box { background: #FFF8E7; border: 1.5px solid #FFD97A; border-radius: 10px; padding: 14px 16px; text-align: left; margin-bottom: 28px; }
+.rules-box .rules-title { font-size: 12px; font-weight: 800; color: #7B5000; margin-bottom: 8px; letter-spacing: .04em; text-transform: uppercase; }
+.rules-box ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.rules-box li { font-size: 13px; color: #7B5000; display: flex; align-items: flex-start; gap: 8px; }
+.rules-box li::before { content: '⚠'; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+
+.btn-start {
+  width: 100%; padding: 16px; background: var(--green); color: #fff;
+  font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 800;
+  border: none; border-radius: 12px; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(141,198,63,.4);
+  transition: background .18s, transform .15s, box-shadow .18s;
+}
+.btn-start:hover { background: var(--green-mid); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(141,198,63,.45); }
+
+/* ===== BLUR WARNING OVERLAY ===== */
+#blur-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(17,18,40,.93); backdrop-filter: blur(4px);
+  align-items: center; justify-content: center; padding: 20px;
+}
+#blur-overlay.show { display: flex; }
+.blur-box {
+  background: var(--surface); border-radius: 16px; padding: 36px 32px;
+  max-width: 420px; width: 100%; text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.blur-icon { font-size: 48px; margin-bottom: 12px; }
+.blur-h { font-size: 20px; font-weight: 800; color: var(--red); margin-bottom: 8px; }
+.blur-p { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+.blur-count-warning { background: var(--red-bg); border: 1.5px solid #FCA5A5; border-radius: 8px; padding: 10px 14px; font-size: 13px; font-weight: 700; color: var(--red); margin-bottom: 20px; }
+.btn-return {
+  background: var(--navy); color: #fff; border: none;
+  padding: 13px 28px; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.btn-return:hover { background: var(--navy-mid); }
+
+/* ===== CONFIRM MODAL ===== */
+#confirm-modal {
+  display: none; position: fixed; inset: 0; z-index: 8888;
+  background: rgba(0,0,0,.6); align-items: center; justify-content: center; padding: 20px;
+}
+#confirm-modal.show { display: flex; }
+.modal-box {
+  background: var(--surface); border-radius: 14px; padding: 28px 30px;
+  max-width: 440px; width: 100%; box-shadow: 0 16px 50px rgba(0,0,0,.3);
+}
+.modal-title { font-size: 17px; font-weight: 800; color: var(--text-1); margin-bottom: 10px; }
+.modal-body { font-size: 14px; color: var(--text-2); line-height: 1.6; margin-bottom: 20px; }
+.modal-row { display: flex; gap: 10px; justify-content: flex-end; }
+.btn-modal-cancel { background: var(--bg); border: 2px solid var(--border); color: var(--text-2); padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.btn-modal-ok { background: var(--green); color: #fff; border: none; padding: 10px 22px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.btn-modal-ok:hover { background: var(--green-mid); }
+.unanswered-list { background: var(--amber-bg); border: 1px solid #FCD34D; border-radius: 8px; padding: 10px 14px; font-size: 13px; color: #7B5000; margin-bottom: 14px; }
+
+/* ===== RESULTS SCREEN ===== */
+#result-screen {
+  display: none; min-height: 100vh; padding: 58px 20px 40px;
+}
+.result-wrapper { max-width: 800px; margin: 0 auto; padding: 28px 0; }
+.result-hero {
+  background: var(--surface); border-radius: 16px; padding: 32px 30px;
+  box-shadow: var(--shadow-md); text-align: center; margin-bottom: 20px; border: 1.5px solid var(--border);
+}
+.result-logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 22px; }
+.result-pass-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 18px; border-radius: 100px; font-size: 14px; font-weight: 800; margin-bottom: 12px;
+}
+.badge-pass { background: #D1FAE5; color: var(--correct); }
+.badge-fail { background: #FEE2E2; color: var(--red); }
+.result-pct { font-size: 60px; font-weight: 800; line-height: 1; margin: 8px 0; }
+.pct-pass { color: var(--correct); }
+.pct-fail { color: var(--red); }
+.result-scaled { font-size: 20px; font-weight: 700; color: var(--text-2); margin-bottom: 4px; }
+.result-scaled span { color: var(--text-1); font-weight: 800; }
+.result-correct-row { font-size: 14px; color: var(--text-3); margin-top: 6px; }
+.result-correct-row strong { color: var(--text-2); }
+
+.domain-breakdown {
+  background: var(--surface); border-radius: 16px; padding: 24px 26px;
+  box-shadow: var(--shadow-sm); margin-bottom: 20px; border: 1.5px solid var(--border);
+}
+.breakdown-title { font-size: 15px; font-weight: 800; color: var(--text-1); margin-bottom: 16px; }
+.domain-row-r {
+  display: grid; grid-template-columns: 1fr 80px 60px;
+  gap: 12px; align-items: center; padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.domain-row-r:last-child { border-bottom: none; }
+.dr-name { font-size: 14px; color: var(--text-2); font-weight: 500; }
+.dr-score { font-size: 13.5px; color: var(--text-3); text-align: center; font-variant-numeric: tabular-nums; }
+.dr-pct { text-align: right; font-size: 13.5px; font-weight: 800; padding: 3px 8px; border-radius: 6px; }
+.dr-good { background: #D1FAE5; color: var(--correct); }
+.dr-mid  { background: #FEF3C7; color: var(--amber); }
+.dr-bad  { background: #FEE2E2; color: var(--red); }
+
+.result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn-retake {
+  background: var(--navy); color: #fff; border: none;
+  padding: 14px 32px; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: background .18s, transform .12s;
+}
+.btn-retake:hover { background: var(--navy-mid); transform: translateY(-1px); }
+.btn-review {
+  background: var(--surface); color: var(--navy); border: 2px solid var(--navy);
+  padding: 14px 32px; border-radius: 10px; font-family: 'DM Sans', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: background .18s, transform .12s;
+}
+.btn-review:hover { background: var(--navy-light); transform: translateY(-1px); }
+
+/* ===== REVIEW MODE ===== */
+#review-screen { display: none; padding: 80px 20px 60px; }
+.review-wrapper { max-width: 820px; margin: 0 auto; }
+.review-q-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 24px 26px; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.review-q-card.rq-correct { border-left: 4px solid var(--correct); }
+.review-q-card.rq-wrong   { border-left: 4px solid var(--red); }
+.rq-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.rq-result-tag { font-size: 12px; font-weight: 800; padding: 3px 10px; border-radius: 100px; }
+.rq-correct-tag { background: #D1FAE5; color: var(--correct); }
+.rq-wrong-tag   { background: #FEE2E2; color: var(--red); }
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar-wrap { height: 3px; background: rgba(255,255,255,.15); position: fixed; top: 58px; left: 0; right: 0; z-index: 199; }
+.progress-bar-fill { height: 100%; background: var(--green); transition: width .3s ease; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .exam-sidebar { display: none; }
+  .exam-main { padding: 20px 16px 100px; }
+  .info-grid { grid-template-columns: 1fr 1fr; }
+  .start-container { padding: 28px 20px; }
+}
+@media (max-width: 500px) {
+  .info-grid { grid-template-columns: 1fr; }
+  .exam-header-meta .meta-pill:not(.timer-pill) { display: none; }
+}
+
+/* Mobile bottom nav */
+.mobile-nav-bar {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 150;
+  background: var(--surface); border-top: 1.5px solid var(--border);
+  padding: 10px 16px; gap: 10px; align-items: center; justify-content: space-between;
+}
+@media (max-width: 768px) { .mobile-nav-bar { display: flex; } }
+.mob-answered { font-size: 12px; color: var(--text-3); font-weight: 600; }
+.mob-answered strong { color: var(--text-1); }
+
+/* ===== PRINT HIDE ===== */
+@media print { #blur-overlay, #confirm-modal, .exam-header, .progress-bar-wrap { display: none !important; } }
+</style>
+
+</head>
+<body>
+
+<!-- ========== START / RULES SCREEN ========== -->
+<div id="start-screen">
+  <div class="start-container">
+    <div class="start-logo-row">
+      <div class="start-logo-badge">K21 <span>Academy</span></div>
+    </div>
+    <div class="cert-badge"><span>☁️</span> AWS Certification Exam Simulator &middot; Mock Test 3</div>
+    <h1 class="start-h1">AWS Certified <span>Machine Learning Engineer – Associate</span></h1>
+    <p class="start-sub">MLA-C01 &middot; <strong>Mock Test 3</strong> &mdash; Practice in a real exam environment with a timer, question navigator, flagging, and instant feedback after submission.</p>
+
+    <div class="info-grid">
+      <div class="info-item-box"><div class="i-label">Questions</div><div class="i-val">65 Questions</div></div>
+      <div class="info-item-box"><div class="i-label">Time Limit</div><div class="i-val">130 Minutes</div></div>
+      <div class="info-item-box"><div class="i-label">Passing Score</div><div class="i-val">720 / 1000 (scaled)</div></div>
+      <div class="info-item-box"><div class="i-label">Question Types</div><div class="i-val">Multiple Choice &amp; Multiple Response</div></div>
+    </div>
+
+    <table class="domain-table">
+      <thead><tr><th>Domain</th><th>Topic</th><th>Weight</th></tr></thead>
+      <tbody>
+        <tr><td>Domain 1</td><td>Data Preparation for Machine Learning (ML)</td><td>28%</td></tr>
+        <tr><td>Domain 2</td><td>ML Model Development</td><td>26%</td></tr>
+        <tr><td>Domain 3</td><td>Deployment and Orchestration of ML Workflows</td><td>22%</td></tr>
+        <tr><td>Domain 4</td><td>ML Solution Monitoring, Maintenance, and Security</td><td>24%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="rules-box">
+      <div class="rules-title">⚠ Exam Rules — Read Before Starting</div>
+      <ul>
+        <li>Do NOT switch tabs or minimize the browser — your exam will be paused and a warning issued.</li>
+        <li>3 tab-switch warnings will automatically end and submit your exam.</li>
+        <li>Multi-select questions require you to choose the exact number of correct answers indicated. Partial credit is not given.</li>
+        <li>You can flag questions for review and return to them before submitting.</li>
+        <li>When the timer reaches zero, your exam is submitted automatically.</li>
+        <li>Once submitted, answers cannot be changed.</li>
+      </ul>
+    </div>
+
+    <button class="btn-start" onclick="startExam()">▶ Start Exam Now</button>
+  </div>
+</div>
+
+<!-- ========== EXAM UI ========== -->
+<div id="exam-ui" style="display:none;">
+  <header class="exam-header">
+    <div class="exam-header-logo">
+      <div class="logo-badge">K21</div>
+      <div class="exam-title">AWS MLA-C01 · Mock Test 3 — <span>Machine Learning Engineer Associate</span></div>
+    </div>
+    <div class="exam-header-meta">
+      <div class="meta-pill"><span class="label">Answered</span><span id="hdr-answered">0/65</span></div>
+      <div class="meta-pill"><span class="label">Flagged</span><span id="hdr-flagged">0</span></div>
+      <div class="meta-pill timer-pill"><span>⏱</span><span class="timer-val" id="timer">130:00</span></div>
+    </div>
+  </header>
+  <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+
+  <div class="exam-layout">
+    <main class="exam-main">
+      <div id="question-container"></div>
+      <div class="q-nav-btns">
+        <button class="btn-nav prev" id="btn-prev" onclick="goToPrev()">← Prev</button>
+        <button class="btn-flag" id="btn-flag" onclick="toggleFlag(currentQ)">⚑ Flag for Review</button>
+        <button class="btn-nav" id="btn-next" onclick="goToNext()">Next →</button>
+      </div>
+    </main>
+
+    <aside class="exam-sidebar">
+      <div class="sidebar-card">
+        <div class="sidebar-title">Progress</div>
+        <div class="stat-row"><span class="stat-label">Answered</span><span class="stat-val" id="stat-answered">0 / 65</span></div>
+        <div class="stat-row"><span class="stat-label">Unanswered</span><span class="stat-val" id="stat-unanswered">65</span></div>
+        <div class="stat-row"><span class="stat-label">Flagged</span><span class="stat-val" id="stat-flagged">0</span></div>
+      </div>
+
+      <div class="sidebar-card">
+        <div class="sidebar-title">Question Navigator</div>
+        <div class="nav-grid" id="nav-grid"></div>
+        <div class="legend" style="margin-top:14px;">
+          <div class="legend-row"><span class="legend-dot ld-cur"></span> Current</div>
+          <div class="legend-row"><span class="legend-dot ld-ans"></span> Answered</div>
+          <div class="legend-row"><span class="legend-dot ld-flag"></span> Flagged</div>
+          <div class="legend-row"><span class="legend-dot ld-unan"></span> Unanswered</div>
+        </div>
+      </div>
+
+      <button class="btn-submit-sidebar" onclick="trySubmit()">Submit Exam →</button>
+    </aside>
+  </div>
+
+  <!-- Mobile bottom nav -->
+  <div class="mobile-nav-bar">
+    <button class="btn-nav prev" onclick="goToPrev()">←</button>
+    <div class="mob-answered">Q <strong id="mob-current">1</strong> of <strong>65</strong> · <span id="mob-answered">0</span> answered</div>
+    <button class="btn-nav" onclick="trySubmit()" style="background:var(--green)">Submit</button>
+    <button class="btn-nav" onclick="goToNext()">→</button>
+  </div>
+</div>
+
+<!-- ========== RESULT SCREEN ========== -->
+<div id="result-screen">
+  <div class="result-wrapper">
+    <div class="result-hero">
+      <div class="result-logo-row"><div class="start-logo-badge">K21 <span>Academy</span></div></div>
+      <div class="result-pass-badge" id="result-badge"></div>
+      <div class="result-pct" id="result-pct"></div>
+      <div class="result-scaled" id="result-scaled"></div>
+      <div class="result-correct-row" id="result-correct"></div>
+    </div>
+
+    <div class="domain-breakdown">
+      <div class="breakdown-title">📊 Domain-wise Breakdown</div>
+      <div id="domain-breakdown-rows"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn-retake" onclick="resetExam()">↺ Retake Exam</button>
+      <button class="btn-review" onclick="showReview()">🔍 Review All Questions</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== REVIEW SCREEN ========== -->
+<div id="review-screen">
+  <header class="exam-header">
+    <div class="exam-header-logo">
+      <div class="logo-badge">K21</div>
+      <div class="exam-title">Review Mode — <span>MLA-C01 · Mock Test 3</span></div>
+    </div>
+    <div class="exam-header-meta">
+      <button class="btn-return" onclick="backToResults()">← Back to Results</button>
+    </div>
+  </header>
+  <div class="review-wrapper" id="review-wrapper" style="padding-top:20px;"></div>
+</div>
+
+<!-- ========== TAB-SWITCH / BLUR OVERLAY ========== -->
+<div id="blur-overlay">
+  <div class="blur-box">
+    <div class="blur-icon">🚨</div>
+    <div class="blur-h">You Left the Exam!</div>
+    <div class="blur-p">Switching tabs or minimizing the browser is not allowed during the exam.</div>
+    <div class="blur-count-warning" id="blur-count-msg"></div>
+    <button class="btn-return" onclick="returnToExam()">Return to Exam</button>
+  </div>
+</div>
+
+<!-- ========== CONFIRM SUBMIT MODAL ========== -->
+<div id="confirm-modal">
+  <div class="modal-box">
+    <div class="modal-title">Submit Exam?</div>
+    <div class="modal-body" id="confirm-body">Are you sure you want to submit? You cannot change your answers after submitting.</div>
+    <div class="modal-row">
+      <button class="btn-modal-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-modal-ok" onclick="confirmSubmit()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===================================================================
+// EXAM CONFIG — AWS Certified Machine Learning Engineer – Associate (MLA-C01)
+// ===================================================================
+const EXAM = {
+  total: 65,
+  timeLimitSec: 130 * 60,   // 130 minutes
+  passScaled: 720,          // 720 / 1000
+  maxBlur: 3
+};
+const DOMAIN_SHORT = {
+  "Data Preparation for Machine Learning":              "Domain 1",
+  "ML Model Development":                               "Domain 2",
+  "Deployment and Orchestration of ML Workflows":       "Domain 3",
+  "ML Solution Monitoring, Maintenance, and Security":  "Domain 4"
+};
+const DOMAIN_ORDER = [
+  "Data Preparation for Machine Learning",
+  "ML Model Development",
+  "Deployment and Orchestration of ML Workflows",
+  "ML Solution Monitoring, Maintenance, and Security"
+];
+
+// ===================================================================
+// QUESTION BANK (65 original MLA-C01 practice questions) — MOCK TEST 3
+// ===================================================================
+const questions = [
+{
+  "id": "q001",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Distributed training jobs repeatedly read the same large dataset from Amazon S3, and startup is dominated by data access time. The team wants a high-throughput, low-latency shared file system that presents S3 data to training instances. Which service should they use?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon FSx for Lustre linked to the S3 bucket"
+    },
+    {
+      "id": "b",
+      "text": "Amazon S3 Glacier Flexible Retrieval"
+    },
+    {
+      "id": "c",
+      "text": "Amazon SNS"
+    },
+    {
+      "id": "d",
+      "text": "AWS Snowcone"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon FSx for Lustre provides a high-throughput, low-latency parallel file system that can be linked to an S3 bucket, accelerating repeated reads for distributed training. Glacier is archival storage, SNS is messaging, and Snowcone is an edge/offline transfer device, none of which serve as a fast training file system."
+},
+{
+  "id": "q002",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team already runs Apache Kafka on-premises and wants a managed, compatible streaming platform on AWS to ingest events for ML feature pipelines with minimal application changes. Which service is the BEST fit?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon Managed Streaming for Apache Kafka (Amazon MSK)"
+    },
+    {
+      "id": "b",
+      "text": "Amazon SQS standard queues only"
+    },
+    {
+      "id": "c",
+      "text": "Amazon S3 event notifications only"
+    },
+    {
+      "id": "d",
+      "text": "Amazon Neptune"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon MSK is a managed, Apache Kafka-compatible service, letting teams move existing Kafka-based ingestion to AWS with minimal changes. SQS is a queue (not Kafka-compatible streaming), S3 event notifications are not a streaming platform, and Neptune is a graph database."
+},
+{
+  "id": "q003",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An analyst wants to identify outliers in a numeric feature using a statistical rule based on quartiles before deciding how to handle them. Which method describes this approach?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Flag values outside 1.5×IQR below Q1 or above Q3 (the interquartile range rule)"
+    },
+    {
+      "id": "b",
+      "text": "Flag values that are exactly equal to the mean"
+    },
+    {
+      "id": "c",
+      "text": "Randomly mark 10% of rows as outliers"
+    },
+    {
+      "id": "d",
+      "text": "Treat every categorical value as an outlier"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The interquartile range (IQR) rule flags values below Q1 − 1.5×IQR or above Q3 + 1.5×IQR as potential outliers, a common quartile-based detection method. Flagging values at the mean, random marking, or treating categoricals as outliers are not valid outlier-detection rules."
+},
+{
+  "id": "q004",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A categorical feature has a natural order (e.g., 'low', 'medium', 'high'). The team wants an encoding that preserves this ordering for the model. Which encoding is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Ordinal encoding that maps the categories to ordered integers"
+    },
+    {
+      "id": "b",
+      "text": "One-hot encoding that discards the ordering"
+    },
+    {
+      "id": "c",
+      "text": "Hashing each category to a random bucket"
+    },
+    {
+      "id": "d",
+      "text": "Dropping the feature entirely"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Ordinal encoding maps ordered categories to integers that preserve their rank (low=0, medium=1, high=2), which is appropriate when the order is meaningful. One-hot encoding discards the order, hashing randomizes it, and dropping the feature loses information."
+},
+{
+  "id": "q005",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Before training a neural network, features must be centered and scaled to have zero mean and unit variance to help gradient-based optimization converge. Which transformation achieves this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Standardization (z-score scaling)"
+    },
+    {
+      "id": "b",
+      "text": "One-hot encoding"
+    },
+    {
+      "id": "c",
+      "text": "Label encoding of numeric values"
+    },
+    {
+      "id": "d",
+      "text": "Base64 encoding"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Standardization (subtract the mean, divide by the standard deviation) produces features with zero mean and unit variance, which helps gradient-based optimization for neural networks converge faster and more stably. One-hot and label encoding are for categoricals, and Base64 is a text encoding unrelated to scaling."
+},
+{
+  "id": "q006",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A fraud dataset is imbalanced, and the team prefers not to synthesize or discard rows. Which model-side technique addresses imbalance without changing the dataset size?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Assign higher class weights to the minority class during training"
+    },
+    {
+      "id": "b",
+      "text": "Duplicate the entire dataset several times"
+    },
+    {
+      "id": "c",
+      "text": "Delete the minority class"
+    },
+    {
+      "id": "d",
+      "text": "Convert all features to Parquet"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Applying class weights makes the algorithm penalize errors on the minority class more heavily, addressing imbalance without resampling the data. Duplicating everything does not change the ratio, deleting the minority class removes the target of interest, and changing file format is irrelevant to imbalance."
+},
+{
+  "id": "q007",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A labeling budget is tight and a large image set must be labeled. The team wants to reduce human effort by having the labeling service automatically label the confident cases and send only uncertain ones to humans. Which Ground Truth feature provides this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Automated data labeling (active learning) in SageMaker Ground Truth"
+    },
+    {
+      "id": "b",
+      "text": "A manual spreadsheet of guesses"
+    },
+    {
+      "id": "c",
+      "text": "Turning off labeling and using raw filenames as labels"
+    },
+    {
+      "id": "d",
+      "text": "Random assignment of labels"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker Ground Truth automated data labeling uses active learning to auto-label high-confidence items and route only uncertain examples to human annotators, reducing labeling cost. A spreadsheet of guesses, filename-based labels, or random assignment do not produce reliable labels."
+},
+{
+  "id": "q008",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A data scientist wants a quick estimate of how predictive a prepared dataset is and an initial view of feature importance and potential target leakage, directly inside a visual data prep tool. Which capability provides this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "The SageMaker Data Wrangler quick model (and bias/leakage insights)"
+    },
+    {
+      "id": "b",
+      "text": "An Amazon SNS subscription"
+    },
+    {
+      "id": "c",
+      "text": "An AWS WAF rule"
+    },
+    {
+      "id": "d",
+      "text": "An Amazon CloudFront distribution"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker Data Wrangler's quick model trains a fast model on the current data to estimate predictive power and surface feature importance, helping spot leakage or weak features early. SNS, WAF, and CloudFront are messaging, web-firewall, and CDN services unrelated to data prep insights."
+},
+{
+  "id": "q009",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A time-series forecasting dataset must be split into training and test sets. Which splitting strategy avoids leaking future information into training?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Split chronologically, training on earlier periods and testing on later periods (no shuffling)"
+    },
+    {
+      "id": "b",
+      "text": "Randomly shuffle all timestamps before splitting"
+    },
+    {
+      "id": "c",
+      "text": "Put the newest data in training and oldest in test"
+    },
+    {
+      "id": "d",
+      "text": "Interleave rows randomly between train and test"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "For time series, splitting chronologically (train on the past, test on the future) preserves temporal order and prevents future information from leaking into training. Shuffling, reversing the order, or interleaving rows lets future data influence training, producing over-optimistic results."
+},
+{
+  "id": "q010",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An AWS Glue ETL job runs repeatedly as new files arrive and should process only the new or changed data each run rather than reprocessing everything. Which Glue feature enables this incremental behavior?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Glue job bookmarks"
+    },
+    {
+      "id": "b",
+      "text": "Glue development endpoints"
+    },
+    {
+      "id": "c",
+      "text": "Glue Data Catalog encryption"
+    },
+    {
+      "id": "d",
+      "text": "Glue Studio dark mode"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Glue job bookmarks track previously processed data so subsequent runs handle only new or changed records, enabling efficient incremental ETL. Development endpoints, catalog encryption, and UI themes do not control incremental processing."
+},
+{
+  "id": "q011",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A text-classification pipeline must convert a very large vocabulary of tokens into a fixed-size numeric feature space efficiently, without storing a huge vocabulary map. Which technique fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Feature hashing (the hashing trick)"
+    },
+    {
+      "id": "b",
+      "text": "Full one-hot encoding of every token"
+    },
+    {
+      "id": "c",
+      "text": "Storing each token as a separate raw string column"
+    },
+    {
+      "id": "d",
+      "text": "Applying min-max scaling to token text"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Feature hashing maps tokens to a fixed number of buckets via a hash function, giving a compact fixed-size representation without maintaining a large vocabulary dictionary. Full one-hot encoding of a huge vocabulary is memory-intensive, separate string columns are unusable by models, and scaling text strings is not meaningful."
+},
+{
+  "id": "q012",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "For compliance, sensitive identifiers must be replaced with consistent surrogate values so records can still be joined and analyzed but real identities are hidden. Which data preparation technique achieves this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Pseudonymization (tokenization) that maps identifiers to consistent surrogate tokens"
+    },
+    {
+      "id": "b",
+      "text": "Deleting all rows that contain identifiers"
+    },
+    {
+      "id": "c",
+      "text": "Publishing the raw identifiers to a public dataset"
+    },
+    {
+      "id": "d",
+      "text": "Rounding numeric identifiers to the nearest ten"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Pseudonymization replaces identifiers with consistent surrogate tokens, preserving the ability to join and analyze while masking real identities. Deleting rows loses data, publishing raw identifiers violates compliance, and rounding does not reliably anonymize identifiers."
+},
+{
+  "id": "q013",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Two numeric features are almost perfectly correlated with each other, causing instability in a linear model (multicollinearity). What is a reasonable data preparation response?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Remove one of the correlated features (or combine them) to reduce multicollinearity"
+    },
+    {
+      "id": "b",
+      "text": "Duplicate both features several more times"
+    },
+    {
+      "id": "c",
+      "text": "Convert both features to the same constant"
+    },
+    {
+      "id": "d",
+      "text": "One-hot encode both continuous features"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Highly correlated features add redundant information and cause multicollinearity, so dropping one (or combining them, e.g., via PCA) stabilizes a linear model. Duplicating them worsens the issue, making them constant removes signal, and one-hot encoding continuous features is inappropriate."
+},
+{
+  "id": "q014",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "A team wants reproducible data preparation so that a training run can always be recreated from the exact same inputs. Which TWO practices support reproducibility? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Version datasets in Amazon S3 (e.g., S3 Versioning or immutable dated prefixes)"
+    },
+    {
+      "id": "b",
+      "text": "Use SageMaker Feature Store so feature values are consistently retrieved for training and inference"
+    },
+    {
+      "id": "c",
+      "text": "Overwrite the dataset in place each day with no version history"
+    },
+    {
+      "id": "d",
+      "text": "Recompute features differently at training and inference time"
+    },
+    {
+      "id": "e",
+      "text": "Store the only copy of the data on an ephemeral notebook instance"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "Versioning datasets in S3 lets a run be recreated from the exact inputs, and Feature Store provides consistent feature values across training and inference, both supporting reproducibility. Overwriting data in place, computing features inconsistently, or keeping data only on ephemeral storage all break reproducibility."
+},
+{
+  "id": "q015",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A model needs enriched records that combine customer demographics stored in one S3 dataset with transaction history in another. Which serverless approach can join and produce the enriched training dataset?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Use AWS Glue (or Amazon Athena) to join the datasets and write the result to Amazon S3"
+    },
+    {
+      "id": "b",
+      "text": "Manually copy rows between spreadsheets"
+    },
+    {
+      "id": "c",
+      "text": "Store both datasets in DynamoDB and scan them per row"
+    },
+    {
+      "id": "d",
+      "text": "Email the datasets to each team member to merge locally"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Glue or Amazon Athena can join datasets across S3 using serverless, scalable processing and write the enriched result back to S3 for training. Manual spreadsheet merges, per-row DynamoDB scans, and emailing datasets are error-prone and do not scale."
+},
+{
+  "id": "q016",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Before feeding images to a convolutional neural network, the pipeline must make inputs uniform and numerically stable. Which preprocessing steps are standard for image inputs?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Resize images to a fixed dimension and normalize pixel values (e.g., scale to 0–1)"
+    },
+    {
+      "id": "b",
+      "text": "Convert each image to a single Boolean value"
+    },
+    {
+      "id": "c",
+      "text": "Store images as raw base64 strings for the model to parse"
+    },
+    {
+      "id": "d",
+      "text": "One-hot encode every pixel independently"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "CNNs expect fixed-size inputs, so resizing to a consistent dimension and normalizing pixel values (e.g., to 0–1 or standardized) is the standard preprocessing. Reducing an image to one Boolean, feeding base64 strings, or one-hot encoding pixels destroys the spatial and intensity information a CNN needs."
+},
+{
+  "id": "q017",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Raw clickstream events must be turned into per-user session features (counts, durations) over rolling time windows for training. Which transformation approach is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Aggregate events into windowed session-level features using a processing job (e.g., Spark/Glue window functions)"
+    },
+    {
+      "id": "b",
+      "text": "Feed individual raw events directly with no aggregation"
+    },
+    {
+      "id": "c",
+      "text": "Randomly assign session IDs to events"
+    },
+    {
+      "id": "d",
+      "text": "Drop all timestamps before aggregating"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Aggregating events into session-level features over rolling windows (using Spark or Glue window functions in a processing job) produces the per-user features the model needs. Feeding raw events without aggregation, randomizing session IDs, or dropping timestamps prevents meaningful session features."
+},
+{
+  "id": "q018",
+  "domain": "Data Preparation for Machine Learning",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "A team must confirm the integrity of a newly delivered training dataset before use. Which TWO validation checks are appropriate? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Verify the expected number of records and column schema match the specification"
+    },
+    {
+      "id": "b",
+      "text": "Check the distribution of key features and label proportions against expectations"
+    },
+    {
+      "id": "c",
+      "text": "Immediately train without inspecting the data"
+    },
+    {
+      "id": "d",
+      "text": "Replace any value that looks unusual with a random number"
+    },
+    {
+      "id": "e",
+      "text": "Assume the upstream team never makes mistakes"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "Confirming record counts and schema, and comparing feature distributions and label proportions to expectations, catches integrity problems (missing data, schema drift, skew) before training. Training blindly, randomly replacing values, or assuming perfect upstream data all skip real validation."
+},
+{
+  "id": "q019",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants a simple, non-parametric built-in algorithm that classifies a record based on the labels of its most similar training examples. Which SageMaker built-in algorithm fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "K-Nearest Neighbors (KNN)"
+    },
+    {
+      "id": "b",
+      "text": "DeepAR"
+    },
+    {
+      "id": "c",
+      "text": "Neural Topic Model"
+    },
+    {
+      "id": "d",
+      "text": "Semantic Segmentation"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker K-Nearest Neighbors (KNN) built-in algorithm classifies (or regresses) a point based on its closest labeled neighbors, a simple non-parametric method. DeepAR forecasts, Neural Topic Model finds topics in text, and Semantic Segmentation labels image pixels."
+},
+{
+  "id": "q020",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A retailer needs to locate and draw boxes around multiple products within a single shelf image. Which SageMaker built-in algorithm is designed for this task?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Object Detection"
+    },
+    {
+      "id": "b",
+      "text": "Linear Learner"
+    },
+    {
+      "id": "c",
+      "text": "K-Means"
+    },
+    {
+      "id": "d",
+      "text": "BlazingText"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker Object Detection built-in algorithm identifies and localizes multiple objects within an image using bounding boxes, matching the shelf-detection need. Linear Learner and K-Means are for tabular/clustering tasks, and BlazingText handles text."
+},
+{
+  "id": "q021",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A medical imaging team must classify each pixel of an image as belonging to a specific region (e.g., organ vs. background). Which SageMaker built-in algorithm is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Semantic Segmentation"
+    },
+    {
+      "id": "b",
+      "text": "Object Detection"
+    },
+    {
+      "id": "c",
+      "text": "Random Cut Forest"
+    },
+    {
+      "id": "d",
+      "text": "Factorization Machines"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Semantic Segmentation assigns a class label to every pixel, which is required for delineating regions like organs at the pixel level. Object Detection draws boxes rather than pixel masks, RCF detects anomalies, and Factorization Machines handle sparse tabular data."
+},
+{
+  "id": "q022",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants to translate text from one language to another and needs a built-in algorithm suited to mapping input sequences to output sequences. Which SageMaker built-in algorithm fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Sequence-to-Sequence (Seq2Seq)"
+    },
+    {
+      "id": "b",
+      "text": "Image Classification"
+    },
+    {
+      "id": "c",
+      "text": "K-Means"
+    },
+    {
+      "id": "d",
+      "text": "IP Insights"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker Sequence-to-Sequence algorithm maps an input sequence (tokens) to an output sequence, suitable for tasks like machine translation and summarization. Image Classification, K-Means, and IP Insights address vision, clustering, and access-anomaly tasks respectively."
+},
+{
+  "id": "q023",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An analyst wants to automatically discover abstract themes across a large collection of documents without labels. Which SageMaker built-in algorithm is designed for topic modeling?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Neural Topic Model (or LDA)"
+    },
+    {
+      "id": "b",
+      "text": "Linear Learner"
+    },
+    {
+      "id": "c",
+      "text": "Object Detection"
+    },
+    {
+      "id": "d",
+      "text": "DeepAR"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker Neural Topic Model (and the LDA algorithm) perform unsupervised topic modeling, uncovering latent themes across documents. Linear Learner is supervised tabular, Object Detection is vision, and DeepAR is forecasting."
+},
+{
+  "id": "q024",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A security team wants to detect when an account is accessed from an unusual IP address given historical usage patterns. Which SageMaker built-in algorithm targets this use case?",
+  "options": [
+    {
+      "id": "a",
+      "text": "IP Insights"
+    },
+    {
+      "id": "b",
+      "text": "Image Classification"
+    },
+    {
+      "id": "c",
+      "text": "Sequence-to-Sequence"
+    },
+    {
+      "id": "d",
+      "text": "K-Means on image pixels"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker IP Insights built-in algorithm learns usage patterns of entities and IP addresses to flag anomalous access, fitting the unusual-login use case. Image Classification, Seq2Seq, and pixel clustering are unrelated to IP-based anomaly detection."
+},
+{
+  "id": "q025",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A regression model's errors should be reported in the target's units, and the team specifically does NOT want large individual errors to dominate the metric as heavily as squaring would. Which metric fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Mean Absolute Error (MAE)"
+    },
+    {
+      "id": "b",
+      "text": "Root Mean Squared Error (RMSE)"
+    },
+    {
+      "id": "c",
+      "text": "F1 score"
+    },
+    {
+      "id": "d",
+      "text": "AUC"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "MAE averages the absolute errors in the target's units and, unlike RMSE, does not square errors, so large individual errors do not dominate as strongly. RMSE penalizes large errors more heavily, and F1 and AUC are classification metrics."
+},
+{
+  "id": "q026",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "On a dataset where 95% of records are the negative class, a model reports 95% accuracy by predicting 'negative' every time. What is the BEST way to evaluate this model meaningfully?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Use metrics like precision, recall, F1, or PR-AUC that account for class imbalance"
+    },
+    {
+      "id": "b",
+      "text": "Report only overall accuracy"
+    },
+    {
+      "id": "c",
+      "text": "Increase the number of epochs and re-report accuracy"
+    },
+    {
+      "id": "d",
+      "text": "Measure the training file size"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "On imbalanced data, accuracy is misleading; precision, recall, F1, and precision-recall AUC reveal how the model performs on the minority class. Reporting accuracy alone hides the failure, changing epochs does not fix the metric choice, and file size is irrelevant."
+},
+{
+  "id": "q027",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A learning curve shows training accuracy far higher than validation accuracy, with a large persistent gap. What does this pattern indicate and a reasonable remedy?",
+  "options": [
+    {
+      "id": "a",
+      "text": "High variance (overfitting); add regularization or more data"
+    },
+    {
+      "id": "b",
+      "text": "High bias (underfitting); make the model far more complex only"
+    },
+    {
+      "id": "c",
+      "text": "The data is perfectly balanced; do nothing"
+    },
+    {
+      "id": "d",
+      "text": "The learning rate is zero; there is no fix"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "A large gap between high training and lower validation performance signals high variance (overfitting); remedies include regularization, more training data, or reducing model complexity. A large gap is not underfitting, is unrelated to class balance, and a zero learning rate would prevent learning entirely, which is a different symptom."
+},
+{
+  "id": "q028",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants to understand how batch size affects training. Which statement is generally TRUE about very large batch sizes?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Very large batches use more memory and can generalize worse without tuning, though they may speed each epoch"
+    },
+    {
+      "id": "b",
+      "text": "Larger batches always guarantee better generalization"
+    },
+    {
+      "id": "c",
+      "text": "Batch size has no effect on memory usage"
+    },
+    {
+      "id": "d",
+      "text": "Batch size only matters for inference, never training"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Larger batch sizes consume more memory and, without careful tuning of the learning rate, can generalize worse even though each epoch may run faster with better hardware utilization. Larger batches do not guarantee better generalization, they clearly affect memory, and batch size is fundamentally a training concern."
+},
+{
+  "id": "q029",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants automatic model tuning to allocate resources efficiently by stopping poorly performing training trials early during the search. Which tuning strategy provides this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "The Hyperband strategy in SageMaker Automatic Model Tuning"
+    },
+    {
+      "id": "b",
+      "text": "Pure grid search over all combinations"
+    },
+    {
+      "id": "c",
+      "text": "Running a single trial with default settings"
+    },
+    {
+      "id": "d",
+      "text": "Manually guessing hyperparameters each time"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Hyperband dynamically allocates resources and early-stops underperforming trials, making the hyperparameter search more efficient than exhaustive grid search. A single default trial does no tuning, and manual guessing is neither systematic nor efficient."
+},
+{
+  "id": "q030",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team already ran a tuning job and now wants a new tuning job to build on that prior knowledge rather than starting from scratch. Which capability should they use?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Warm start for the new hyperparameter tuning job"
+    },
+    {
+      "id": "b",
+      "text": "Deleting the previous tuning results"
+    },
+    {
+      "id": "c",
+      "text": "Grid search from zero"
+    },
+    {
+      "id": "d",
+      "text": "Turning off tuning entirely"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Warm start lets a new tuning job reuse information from one or more previous tuning jobs, accelerating the search. Deleting prior results discards useful knowledge, starting grid search from zero ignores it, and disabling tuning does not tune at all."
+},
+{
+  "id": "q031",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "New labeled data has arrived and the team wants to continue improving an existing trained model without retraining from scratch. Which approach is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Incremental training, initializing from the existing model's artifacts and continuing training"
+    },
+    {
+      "id": "b",
+      "text": "Always deleting the old model and training entirely from scratch every time"
+    },
+    {
+      "id": "c",
+      "text": "Averaging random weights into the model"
+    },
+    {
+      "id": "d",
+      "text": "Skipping training and relabeling the old data"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Incremental training continues from an existing model's artifacts using new data, saving time and compute compared to full retraining. Training from scratch each time is wasteful, injecting random weights degrades the model, and relabeling old data without training does not improve it."
+},
+{
+  "id": "q032",
+  "domain": "ML Model Development",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "For an XGBoost model that is overfitting, which TWO hyperparameter adjustments typically reduce overfitting? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Reduce the maximum tree depth (max_depth)"
+    },
+    {
+      "id": "b",
+      "text": "Increase regularization (e.g., lambda/alpha) or reduce the learning rate with more early stopping"
+    },
+    {
+      "id": "c",
+      "text": "Grow trees to unlimited depth"
+    },
+    {
+      "id": "d",
+      "text": "Remove all regularization terms"
+    },
+    {
+      "id": "e",
+      "text": "Train far past the early-stopping point"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "Lowering max_depth limits tree complexity, and increasing regularization (lambda/alpha) or lowering the learning rate with early stopping constrains the model, both reducing XGBoost overfitting. Unlimited depth, removing regularization, and training past early stopping all worsen overfitting."
+},
+{
+  "id": "q033",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A company wants a generative AI assistant to answer questions using its own private documents, keeping answers grounded in that content without fully retraining a model. Which approach on AWS fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Retrieval-Augmented Generation (RAG) using Amazon Bedrock Knowledge Bases over the company documents"
+    },
+    {
+      "id": "b",
+      "text": "Training a large language model from scratch on all public internet text"
+    },
+    {
+      "id": "c",
+      "text": "Using K-Means to answer the questions"
+    },
+    {
+      "id": "d",
+      "text": "Deploying Amazon Polly to read the documents aloud"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Retrieval-Augmented Generation with Amazon Bedrock Knowledge Bases retrieves relevant company documents and grounds a foundation model's answers in that content, without training a model from scratch. Training an LLM from scratch is costly and unnecessary, K-Means does not answer questions, and Polly only converts text to speech."
+},
+{
+  "id": "q034",
+  "domain": "ML Model Development",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A business wants to detect fraudulent online transactions but has limited ML expertise and wants a managed service purpose-built for fraud detection. Which AWS service should they use?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon Fraud Detector"
+    },
+    {
+      "id": "b",
+      "text": "Amazon Textract"
+    },
+    {
+      "id": "c",
+      "text": "Amazon Translate"
+    },
+    {
+      "id": "d",
+      "text": "Amazon SageMaker Ground Truth"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon Fraud Detector is a managed service that builds fraud-detection models from a company's historical data with minimal ML expertise. Textract extracts document data, Translate does language translation, and Ground Truth labels data, none of which is a purpose-built fraud service."
+},
+{
+  "id": "q035",
+  "domain": "ML Model Development",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "When choosing a modeling approach for a regulated use case, the team must balance competing requirements. Which TWO considerations are legitimate factors in model selection? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Whether the use case requires model interpretability/explainability for auditors"
+    },
+    {
+      "id": "b",
+      "text": "The inference latency and cost budget the deployment must meet"
+    },
+    {
+      "id": "c",
+      "text": "Choosing the most complex model possible regardless of needs"
+    },
+    {
+      "id": "d",
+      "text": "Selecting an algorithm purely because it is newest"
+    },
+    {
+      "id": "e",
+      "text": "Ignoring the size and quality of available training data"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "Interpretability requirements (for audits/regulation) and the latency/cost budget are legitimate, decisive factors in choosing a modeling approach. Maximizing complexity for its own sake, chasing novelty, or ignoring data size/quality are poor bases for model selection."
+},
+{
+  "id": "q036",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An endpoint's traffic follows a highly predictable daily pattern: high during business hours, low overnight. The team wants capacity to change on this known schedule to control cost. Which scaling approach fits best?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Scheduled scaling that changes the instance count at known times of day"
+    },
+    {
+      "id": "b",
+      "text": "Only manual scaling whenever someone remembers"
+    },
+    {
+      "id": "c",
+      "text": "Fixed peak capacity 24/7"
+    },
+    {
+      "id": "d",
+      "text": "No scaling and accept overnight waste"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Scheduled scaling adjusts endpoint capacity at predefined times, matching a known daily pattern to reduce overnight cost while meeting business-hours demand. Manual scaling is unreliable, fixed peak capacity wastes money off-peak, and no scaling ignores the opportunity."
+},
+{
+  "id": "q037",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team must update a live SageMaker real-time endpoint to a new model configuration without downtime for users. Which capability supports this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Updating the endpoint (endpoint update), which provisions the new configuration before shifting traffic with no downtime"
+    },
+    {
+      "id": "b",
+      "text": "Deleting the endpoint and creating a new one, accepting an outage"
+    },
+    {
+      "id": "c",
+      "text": "Editing the model files in place while serving"
+    },
+    {
+      "id": "d",
+      "text": "Restarting the underlying instances manually one by one via SSH"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker endpoint update operation deploys the new endpoint configuration and shifts traffic without downtime, so users are not interrupted. Deleting and recreating causes an outage, editing model files in place is unsupported and unsafe, and manual SSH restarts are not how managed endpoints are updated."
+},
+{
+  "id": "q038",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An ML pipeline occasionally fails on transient errors, and the team wants automatic retries and error-handling branches across multiple steps and services. Which orchestration service provides built-in retry and catch logic?",
+  "options": [
+    {
+      "id": "a",
+      "text": "AWS Step Functions (state machine with Retry and Catch)"
+    },
+    {
+      "id": "b",
+      "text": "Amazon S3 static hosting"
+    },
+    {
+      "id": "c",
+      "text": "Amazon CloudFront"
+    },
+    {
+      "id": "d",
+      "text": "Amazon Comprehend"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Step Functions state machines support built-in Retry and Catch configurations per state, giving resilient orchestration across steps and services for ML workflows. S3 hosting, CloudFront, and Comprehend do not orchestrate multi-step workflows with retry/catch."
+},
+{
+  "id": "q039",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Incoming requests to a model endpoint need lightweight preprocessing (parsing and reshaping the payload) before invocation, and the team wants a serverless function to do this transformation. Which service fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "AWS Lambda to preprocess the request before invoking the SageMaker endpoint"
+    },
+    {
+      "id": "b",
+      "text": "Amazon Redshift Spectrum"
+    },
+    {
+      "id": "c",
+      "text": "Amazon FSx for Windows File Server"
+    },
+    {
+      "id": "d",
+      "text": "AWS Ground Station"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Lambda provides serverless, event-driven compute ideal for lightweight request preprocessing before calling the SageMaker endpoint. Redshift Spectrum queries data, FSx is file storage, and Ground Station handles satellite communications, none of which preprocess inference requests."
+},
+{
+  "id": "q040",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A public-facing prediction API must authenticate callers, throttle abusive traffic, and provide a stable HTTPS interface in front of the model. Which service provides these API-management features?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon API Gateway"
+    },
+    {
+      "id": "b",
+      "text": "Amazon Kinesis Data Streams"
+    },
+    {
+      "id": "c",
+      "text": "AWS Glue"
+    },
+    {
+      "id": "d",
+      "text": "Amazon EFS"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon API Gateway offers managed authentication, throttling, and a stable HTTPS front end for APIs, commonly placed before a Lambda that invokes the model. Kinesis (streaming), Glue (ETL), and EFS (file storage) do not provide API management."
+},
+{
+  "id": "q041",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A SageMaker Pipelines run should only register a model if its evaluation metric passes a threshold; otherwise it should skip registration. Which step type implements this decision?",
+  "options": [
+    {
+      "id": "a",
+      "text": "A ConditionStep that evaluates the metric and branches"
+    },
+    {
+      "id": "b",
+      "text": "A ProcessingStep that always registers"
+    },
+    {
+      "id": "c",
+      "text": "A TrainingStep repeated indefinitely"
+    },
+    {
+      "id": "d",
+      "text": "A manual approval email sent for every record"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "A SageMaker Pipelines ConditionStep evaluates a metric and branches the workflow, registering the model only when the condition is satisfied. A processing step that always registers ignores the gate, repeating training does not decide registration, and per-record manual emails do not automate the condition."
+},
+{
+  "id": "q042",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants a fully event-driven retraining schedule that runs a pipeline at fixed intervals (e.g., weekly) without maintaining a server to trigger it. Which service should they use?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon EventBridge Scheduler to start the pipeline on a schedule"
+    },
+    {
+      "id": "b",
+      "text": "A cron job on a permanently running EC2 instance"
+    },
+    {
+      "id": "c",
+      "text": "Manually starting the pipeline each week"
+    },
+    {
+      "id": "d",
+      "text": "Amazon Rekognition"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon EventBridge Scheduler triggers targets (like a SageMaker pipeline) on a defined schedule serverlessly, with no server to maintain. A cron job on a persistent EC2 instance adds management and cost, manual starts are error-prone, and Rekognition is an image/video analysis service."
+},
+{
+  "id": "q043",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team's custom inference code and its unusual runtime dependencies must run on a SageMaker endpoint. What is the standard way to deploy this custom serving stack?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Build a custom container image, push it to Amazon ECR, and deploy it as the endpoint's inference container"
+    },
+    {
+      "id": "b",
+      "text": "Paste the code into the AWS console description field"
+    },
+    {
+      "id": "c",
+      "text": "Only use built-in images even though they lack the dependencies"
+    },
+    {
+      "id": "d",
+      "text": "Run the inference code on a laptop and forward requests manually"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker supports custom inference containers: build the image with the code and dependencies, store it in Amazon ECR, and deploy it as the endpoint's serving container. Pasting code into console fields, forcing incompatible built-in images, or serving from a laptop are not viable production approaches."
+},
+{
+  "id": "q044",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants to deploy a foundation model quickly to a SageMaker endpoint with minimal setup, choosing from a catalog of pretrained models. Which capability provides this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon SageMaker JumpStart"
+    },
+    {
+      "id": "b",
+      "text": "Amazon Macie"
+    },
+    {
+      "id": "c",
+      "text": "AWS Config"
+    },
+    {
+      "id": "d",
+      "text": "Amazon SQS"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon SageMaker JumpStart offers a catalog of pretrained and foundation models that can be deployed to endpoints (and fine-tuned) with minimal setup. Macie (data security), Config (configuration tracking), and SQS (queuing) do not deploy models."
+},
+{
+  "id": "q045",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A data scientist wants to launch a training job from Python using a familiar high-level interface that handles instance provisioning, data channels, and hyperparameters. Which approach is standard?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Use the SageMaker Python SDK Estimator (script mode) to configure and launch the training job"
+    },
+    {
+      "id": "b",
+      "text": "SSH into random EC2 instances and run scripts by hand"
+    },
+    {
+      "id": "c",
+      "text": "Upload the code to an S3 website and hope it trains"
+    },
+    {
+      "id": "d",
+      "text": "Only train inside a spreadsheet"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "The SageMaker Python SDK Estimator (script mode) provides a high-level interface to configure instances, data channels, and hyperparameters and launch managed training jobs. Manual SSH runs, S3 website uploads, and spreadsheets are not how SageMaker training is launched."
+},
+{
+  "id": "q046",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An organization must schedule periodic batch inference on new data and wants the process to be fully automated end to end. Which combination is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon EventBridge (scheduled rule) triggering a SageMaker Batch Transform job"
+    },
+    {
+      "id": "b",
+      "text": "An engineer manually kicking off scoring whenever they remember"
+    },
+    {
+      "id": "c",
+      "text": "A permanently running real-time endpoint polled by hand"
+    },
+    {
+      "id": "d",
+      "text": "Emailing the data to AWS Support for scoring"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "A scheduled Amazon EventBridge rule can automatically start a SageMaker Batch Transform job on new data, giving hands-off periodic batch scoring. Manual triggering, a hand-polled always-on endpoint, or emailing support are not automated, cost-effective solutions."
+},
+{
+  "id": "q047",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A model must be served both to a cloud application and to intermittently connected retail devices running inference locally. Which pairing addresses the on-device requirement?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Optimize the model with SageMaker Neo and deploy/run it on the devices with AWS IoT Greengrass"
+    },
+    {
+      "id": "b",
+      "text": "Require every device to hold an always-on connection to a single cloud endpoint"
+    },
+    {
+      "id": "c",
+      "text": "Run inference only in Amazon QuickSight"
+    },
+    {
+      "id": "d",
+      "text": "Store predictions in Amazon Athena for devices to query online"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker Neo compiles the model for the target device hardware and AWS IoT Greengrass runs inference locally, supporting intermittently connected retail devices. An always-on cloud connection fails offline, QuickSight is BI, and Athena requires online querying, none of which enable local edge inference."
+},
+{
+  "id": "q048",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "A team wants a reproducible, automated MLOps setup for building and deploying models. Which TWO practices support this? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Define pipelines and infrastructure as code (e.g., SageMaker Pipelines plus CloudFormation/CDK)"
+    },
+    {
+      "id": "b",
+      "text": "Use a model registry to version and gate model deployments"
+    },
+    {
+      "id": "c",
+      "text": "Deploy models by manually clicking through the console each time"
+    },
+    {
+      "id": "d",
+      "text": "Keep the only copy of pipeline definitions on a personal laptop"
+    },
+    {
+      "id": "e",
+      "text": "Skip versioning so every deployment overwrites the last with no history"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "Defining pipelines and infrastructure as code makes the workflow reproducible and automatable, and a model registry versions models and gates deployments with approval status. Manual console clicks, laptop-only definitions, and no versioning undermine reproducible MLOps."
+},
+{
+  "id": "q049",
+  "domain": "Deployment and Orchestration of ML Workflows",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A model receives large document payloads a few times an hour; each request can take several minutes to process, and the team wants to avoid paying for compute while idle between requests. Which inference option BEST fits?",
+  "options": [
+    {
+      "id": "a",
+      "text": "SageMaker Asynchronous Inference, which queues large-payload requests and can scale instances to zero when idle"
+    },
+    {
+      "id": "b",
+      "text": "A synchronous real-time endpoint kept at fixed capacity around the clock"
+    },
+    {
+      "id": "c",
+      "text": "A nightly batch transform, even though requests arrive throughout the day"
+    },
+    {
+      "id": "d",
+      "text": "An API Gateway mock integration that returns canned responses"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker Asynchronous Inference queues requests, handles large payloads and multi-minute processing without holding a synchronous connection, and can auto-scale to zero instances during idle periods to save cost, matching infrequent large-payload traffic. A fixed real-time endpoint pays for idle capacity, nightly batch cannot serve intra-day requests promptly, and a mock integration returns no real predictions."
+},
+{
+  "id": "q050",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A model's accuracy is degrading over time even though the input data schema is unchanged; the relationship between inputs and the target has shifted. What is this phenomenon called, and which capability helps detect it?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Concept drift, detected by SageMaker Model Monitor model quality monitoring against ground-truth labels"
+    },
+    {
+      "id": "b",
+      "text": "A billing anomaly, detected by AWS Budgets"
+    },
+    {
+      "id": "c",
+      "text": "A DNS misconfiguration, detected by Route 53"
+    },
+    {
+      "id": "d",
+      "text": "A cache miss, detected by CloudFront"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Concept drift is when the input-to-target relationship changes over time; Model Monitor's model quality monitoring compares predictions to ground-truth labels to detect the resulting accuracy decline. Budgets, Route 53, and CloudFront address billing, DNS, and caching, not model drift."
+},
+{
+  "id": "q051",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "To set up SageMaker Model Monitor correctly, which sequence of prerequisites is required before scheduled monitoring can flag deviations?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Enable data capture, create a baseline from a reference dataset, then schedule the monitoring job to compare against the baseline"
+    },
+    {
+      "id": "b",
+      "text": "Delete the endpoint, then schedule monitoring on nothing"
+    },
+    {
+      "id": "c",
+      "text": "Disable logging, then hope Model Monitor infers a baseline"
+    },
+    {
+      "id": "d",
+      "text": "Only enable billing alerts"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Model Monitor requires data capture to record traffic, a baseline computed from a reference dataset defining expected statistics/constraints, and a monitoring schedule that compares captured data against that baseline. Deleting the endpoint, disabling logging, or enabling only billing alerts do not set up monitoring."
+},
+{
+  "id": "q052",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Security policy requires that a SageMaker endpoint can only be invoked from within the corporate VPC and not from arbitrary internet locations. Which control enforces this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Use a VPC interface endpoint (AWS PrivateLink) for the SageMaker runtime and restrict access with IAM/endpoint policies"
+    },
+    {
+      "id": "b",
+      "text": "Give the endpoint a public IP and open it to 0.0.0.0/0"
+    },
+    {
+      "id": "c",
+      "text": "Publish the invocation URL on a public webpage"
+    },
+    {
+      "id": "d",
+      "text": "Disable IAM authentication on the endpoint"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "A VPC interface endpoint (PrivateLink) for the SageMaker runtime keeps invocation traffic private within the VPC, and IAM plus endpoint policies restrict who can call it, meeting the private-access requirement. Public IPs, publishing URLs, or disabling IAM all expose the endpoint."
+},
+{
+  "id": "q053",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants to reduce the cost of large-scale model training and is willing to use AWS's purpose-built training accelerators. Which instance option is designed to lower deep learning training cost?",
+  "options": [
+    {
+      "id": "a",
+      "text": "AWS Trainium-based (Trn1) instances"
+    },
+    {
+      "id": "b",
+      "text": "The smallest available general-purpose CPU instance"
+    },
+    {
+      "id": "c",
+      "text": "A memory-optimized instance with no accelerator"
+    },
+    {
+      "id": "d",
+      "text": "An instance chosen at random"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Trainium (Trn1) instances are purpose-built accelerators designed to reduce the cost of training deep learning models at scale. A tiny CPU instance cannot train large models efficiently, a plain memory-optimized instance lacks training acceleration, and random selection is not a cost strategy."
+},
+{
+  "id": "q054",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Monitoring shows several real-time endpoints are consistently underutilized (low invocations per instance). Which action reduces cost while maintaining service?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Consolidate low-traffic models onto a multi-model endpoint or right-size/scale down the instances"
+    },
+    {
+      "id": "b",
+      "text": "Double the instance count on each underutilized endpoint"
+    },
+    {
+      "id": "c",
+      "text": "Upgrade every endpoint to the largest GPU instance"
+    },
+    {
+      "id": "d",
+      "text": "Ignore the utilization data"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Underutilized endpoints waste money; consolidating low-traffic models onto a multi-model endpoint or right-sizing/scaling down instances cuts cost while maintaining service. Doubling instances, upgrading to the largest GPU, or ignoring the data all increase or fail to address cost."
+},
+{
+  "id": "q055",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "For a training job handling sensitive data, the storage volumes attached to the training instances must be encrypted with a key the company controls. Which setting achieves this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Specify a KMS VolumeKmsKeyId so the training job's storage volumes are encrypted with a customer managed key"
+    },
+    {
+      "id": "b",
+      "text": "Rely on no encryption to speed the job"
+    },
+    {
+      "id": "c",
+      "text": "Store the data on an unencrypted public volume"
+    },
+    {
+      "id": "d",
+      "text": "Encrypt only after the job finishes"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker lets you specify a KMS key (VolumeKmsKeyId) to encrypt the ML storage volumes attached to training instances with a customer managed key. Skipping encryption, using a public volume, or encrypting only afterward fail the at-rest protection requirement during the job."
+},
+{
+  "id": "q056",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An application must read non-secret configuration values (like a model version string and feature flags) at runtime, with versioning and low cost. Which service is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "AWS Systems Manager Parameter Store"
+    },
+    {
+      "id": "b",
+      "text": "A hardcoded value compiled into the container"
+    },
+    {
+      "id": "c",
+      "text": "A public S3 object with no versioning"
+    },
+    {
+      "id": "d",
+      "text": "An email sent to operators"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Systems Manager Parameter Store stores configuration values (with versioning, and SecureString for sensitive values) that applications retrieve at runtime with IAM control and low cost. Hardcoding values prevents updates, a public unversioned S3 object is insecure and unmanaged, and email is not a config store."
+},
+{
+  "id": "q057",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "An online lending model must provide, for each real-time prediction, an explanation of which features most influenced that specific decision, for compliance. Which capability provides per-inference feature attributions?",
+  "options": [
+    {
+      "id": "a",
+      "text": "SageMaker Clarify online explainability integrated with the endpoint"
+    },
+    {
+      "id": "b",
+      "text": "Amazon CloudFront access logs"
+    },
+    {
+      "id": "c",
+      "text": "AWS Budgets forecasts"
+    },
+    {
+      "id": "d",
+      "text": "Amazon SQS dead-letter queues"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "SageMaker Clarify online explainability computes per-request feature attributions (e.g., SHAP values) alongside real-time predictions, supporting compliance explanations. CloudFront logs, Budgets forecasts, and SQS dead-letter queues do not explain model predictions."
+},
+{
+  "id": "q058",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "After training, a team must quantify whether the model's outcomes differ unfairly across demographic groups before deployment. Which tool computes these post-training bias metrics?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Amazon SageMaker Clarify (post-training bias metrics)"
+    },
+    {
+      "id": "b",
+      "text": "Amazon Transcribe"
+    },
+    {
+      "id": "c",
+      "text": "AWS CloudTrail"
+    },
+    {
+      "id": "d",
+      "text": "Amazon EFS"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Amazon SageMaker Clarify computes post-training bias metrics that measure disparities in model outcomes across groups, informing fairness decisions before deployment. Transcribe (speech-to-text), CloudTrail (API auditing), and EFS (file storage) do not measure model bias."
+},
+{
+  "id": "q059",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "A security team wants least-privilege access for a SageMaker execution role while also capping the maximum permissions any policy on that role could ever grant. Which TWO IAM mechanisms together achieve this? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Attach an identity-based policy scoped to only the required actions and resources"
+    },
+    {
+      "id": "b",
+      "text": "Apply a permissions boundary to cap the role's maximum permissions"
+    },
+    {
+      "id": "c",
+      "text": "Attach AdministratorAccess to the role for flexibility"
+    },
+    {
+      "id": "d",
+      "text": "Use the account root user as the execution role"
+    },
+    {
+      "id": "e",
+      "text": "Embed static access keys in the container"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "A scoped identity-based policy grants only what the role needs, and a permissions boundary sets the maximum permissions the role can ever have, together enforcing strong least privilege. AdministratorAccess, using root, or embedding static keys all violate least privilege."
+},
+{
+  "id": "q060",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Finance needs to attribute SageMaker and related ML costs to specific teams and projects for chargeback reporting. Which practice enables this cost visibility?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Apply cost allocation tags to resources and analyze spend in AWS Cost Explorer"
+    },
+    {
+      "id": "b",
+      "text": "Disable all tagging to simplify billing"
+    },
+    {
+      "id": "c",
+      "text": "Use one untagged account for everything with no breakdown"
+    },
+    {
+      "id": "d",
+      "text": "Estimate costs by guessing each month"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Cost allocation tags let teams categorize resources so spend can be grouped and analyzed by team/project in AWS Cost Explorer for chargeback. Disabling tagging, using one untagged bucket of spend, or guessing all prevent accurate cost attribution."
+},
+{
+  "id": "q061",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A team wants to be alerted before monthly ML spending exceeds a set limit so they can act early. Which service provides this budget alerting?",
+  "options": [
+    {
+      "id": "a",
+      "text": "AWS Budgets with a budget threshold and alert"
+    },
+    {
+      "id": "b",
+      "text": "Amazon CloudFront"
+    },
+    {
+      "id": "c",
+      "text": "Amazon SageMaker Ground Truth"
+    },
+    {
+      "id": "d",
+      "text": "AWS Glue DataBrew"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "AWS Budgets lets teams set spending thresholds and receive alerts when actual or forecasted costs approach or exceed the limit, enabling proactive cost control. CloudFront, Ground Truth, and Glue DataBrew are a CDN, labeling service, and data-prep tool respectively."
+},
+{
+  "id": "q062",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Compliance requires that SageMaker Studio users cannot access the public internet directly and that all traffic stays within the corporate network. Which configuration enforces this?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Launch SageMaker Studio in VPC-only mode with the necessary VPC endpoints"
+    },
+    {
+      "id": "b",
+      "text": "Give the Studio domain a public internet gateway with open routes"
+    },
+    {
+      "id": "c",
+      "text": "Assign every user a personal public IP"
+    },
+    {
+      "id": "d",
+      "text": "Disable IAM for Studio users"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Running SageMaker Studio in VPC-only mode routes traffic through the VPC (with the required VPC endpoints) and blocks direct public internet access, meeting the compliance requirement. A public internet gateway, public IPs, or disabling IAM all increase exposure rather than restricting it."
+},
+{
+  "id": "q063",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "multi",
+  "correct_count": 2,
+  "question": "A regulated team must prevent training jobs from exfiltrating sensitive data to the internet. Which TWO controls help prevent data exfiltration? (Select TWO.)",
+  "options": [
+    {
+      "id": "a",
+      "text": "Enable network isolation on the training job so the container cannot make network calls"
+    },
+    {
+      "id": "b",
+      "text": "Run the job in private subnets with no internet gateway/NAT route and use VPC endpoints for AWS services"
+    },
+    {
+      "id": "c",
+      "text": "Attach a public IP and open outbound traffic to the internet"
+    },
+    {
+      "id": "d",
+      "text": "Store the training data in a public S3 bucket"
+    },
+    {
+      "id": "e",
+      "text": "Disable encryption and IAM to simplify access"
+    }
+  ],
+  "correct": [
+    "a",
+    "b"
+  ],
+  "explanation": "Network isolation blocks the container from making network calls, and running in private subnets without an internet route while reaching AWS services through VPC endpoints keeps data on the private network, both preventing exfiltration. Public IPs with open egress, public data buckets, and disabling encryption/IAM all create exfiltration risk."
+},
+{
+  "id": "q064",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "Over time, a Model Registry accumulates many old, unapproved model versions. The team wants to maintain the registry by removing or archiving stale versions in an automated, governed way. Which approach is appropriate?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Automate lifecycle management to archive or delete stale model package versions based on status and age (e.g., via a scheduled Lambda using the SageMaker API)"
+    },
+    {
+      "id": "b",
+      "text": "Never remove anything and let the registry grow without limit"
+    },
+    {
+      "id": "c",
+      "text": "Delete the entire registry whenever it gets large"
+    },
+    {
+      "id": "d",
+      "text": "Manually recreate the registry from scratch each week"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Automating lifecycle management (for example, a scheduled Lambda that uses the SageMaker API to archive or delete stale, unapproved model versions by status and age) keeps the registry maintainable and governed. Never cleaning up, deleting the whole registry, or recreating it weekly are unmanaged or destructive."
+},
+{
+  "id": "q065",
+  "domain": "ML Solution Monitoring, Maintenance, and Security",
+  "type": "single",
+  "correct_count": 1,
+  "question": "A model quality monitoring job needs actual outcomes (ground-truth labels) to compare against past predictions. How is this typically enabled in SageMaker Model Monitor?",
+  "options": [
+    {
+      "id": "a",
+      "text": "Ingest ground-truth labels to Amazon S3 so Model Monitor can merge them with captured predictions and compute quality metrics"
+    },
+    {
+      "id": "b",
+      "text": "Assume predictions are always correct and skip labels"
+    },
+    {
+      "id": "c",
+      "text": "Use the training accuracy as the live quality metric forever"
+    },
+    {
+      "id": "d",
+      "text": "Delete captured predictions before labels arrive"
+    }
+  ],
+  "correct": [
+    "a"
+  ],
+  "explanation": "Model quality monitoring merges captured predictions with ground-truth labels delivered to S3 to compute live metrics like accuracy or F1 over time. Assuming correctness, reusing static training accuracy, or deleting captured predictions prevents real model-quality measurement."
+}
+];
+
+// ===================================================================
+// STATE
+// ===================================================================
+let currentQ      = 0;
+const answers     = {};          // idx -> array of selected option ids
+const flags       = new Set();   // flagged question indices
+let examActive    = false;
+let submitted     = false;
+let blurWarnings  = 0;
+let timeLeft      = EXAM.timeLimitSec;
+let timerInterval = null;
+let results       = null;
+
+// ===================================================================
+// START / RESET
+// ===================================================================
+function startExam() {
+  document.getElementById('start-screen').style.display = 'none';
+  document.getElementById('exam-ui').style.display = 'block';
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'none';
+  examActive = true;
+  submitted  = false;
+  buildNavGrid();
+  renderQuestion(0);
+  updateHeaderCounts();
+  startTimer();
+  attachVisibilityListeners();
+  window.scrollTo(0, 0);
+}
+
+function resetExam() {
+  currentQ = 0;
+  for (const k in answers) delete answers[k];
+  flags.clear();
+  blurWarnings = 0;
+  timeLeft = EXAM.timeLimitSec;
+  submitted = false;
+  clearInterval(timerInterval);
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'none';
+  startExam();
+}
+
+// ===================================================================
+// TIMER
+// ===================================================================
+function startTimer() {
+  clearInterval(timerInterval);
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      autoSubmit('Time is up. Your exam has been submitted automatically.');
+    }
+  }, 1000);
+}
+function updateTimerDisplay() {
+  const el = document.getElementById('timer');
+  const h = Math.floor(timeLeft / 3600);
+  const m = Math.floor((timeLeft % 3600) / 60);
+  const s = timeLeft % 60;
+  el.textContent = h > 0
+    ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+    : `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  if (timeLeft <= 300) el.classList.add('warning'); else el.classList.remove('warning');
+}
+
+// ===================================================================
+// RENDER QUESTION
+// ===================================================================
+function isAnswered(idx) {
+  const q = questions[idx];
+  const a = answers[idx] || [];
+  return a.length === q.correct_count && a.length > 0;
+}
+
+function renderQuestion(idx) {
+  currentQ = idx;
+  const q = questions[idx];
+  const sel = answers[idx] || [];
+  const isMulti = q.type === 'multi';
+
+  const optionsHtml = q.options.map(opt => {
+    const chosen = sel.includes(opt.id);
+    return `
+      <li class="option-item ${chosen ? 'selected' : ''}" onclick="selectOption(${idx}, '${opt.id}')">
+        <span class="opt-letter">${opt.id.toUpperCase()}</span>
+        <span class="opt-label">${escapeHtml(opt.text)}</span>
+      </li>`;
+  }).join('');
+
+  const multiNotice = isMulti
+    ? `<div class="multi-notice">⚠ Multiple response — select exactly ${q.correct_count} answers.</div>`
+    : '';
+
+  document.getElementById('question-container').innerHTML = `
+    <div class="question-card">
+      <div class="q-meta">
+        <span class="q-num-badge">Question ${idx + 1} of ${EXAM.total}</span>
+        <div class="q-tags">
+          <span class="domain-tag">${DOMAIN_SHORT[q.domain] || q.domain}</span>
+          ${isMulti ? '<span class="multi-tag">MULTI-SELECT</span>' : ''}
+        </div>
+      </div>
+      <div class="question-text">${escapeHtml(q.question)}</div>
+      ${multiNotice}
+      <ul class="options-list">${optionsHtml}</ul>
+    </div>`;
+
+  // Nav buttons state
+  document.getElementById('btn-prev').disabled = idx === 0;
+  document.getElementById('btn-next').disabled = idx === questions.length - 1;
+  const flagBtn = document.getElementById('btn-flag');
+  flagBtn.classList.toggle('flagged', flags.has(idx));
+  flagBtn.textContent = flags.has(idx) ? '⚑ Flagged' : '⚑ Flag for Review';
+
+  document.getElementById('mob-current').textContent = idx + 1;
+  updateNavGrid();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===================================================================
+// SELECT OPTION
+// ===================================================================
+function selectOption(idx, optId) {
+  if (submitted) return;
+  const q = questions[idx];
+  let sel = answers[idx] ? answers[idx].slice() : [];
+
+  if (q.type === 'single') {
+    sel = [optId];
+  } else {
+    if (sel.includes(optId)) {
+      sel = sel.filter(x => x !== optId);           // toggle off
+    } else if (sel.length < q.correct_count) {
+      sel.push(optId);                               // add
+    } else {
+      // at limit: replace the earliest selection so the newest click registers
+      sel.shift();
+      sel.push(optId);
+    }
+  }
+  answers[idx] = sel;
+  renderQuestion(idx);
+  updateHeaderCounts();
+}
+
+// ===================================================================
+// NAVIGATION
+// ===================================================================
+function goToNext() { if (currentQ < questions.length - 1) renderQuestion(currentQ + 1); }
+function goToPrev() { if (currentQ > 0) renderQuestion(currentQ - 1); }
+function jumpTo(idx) { renderQuestion(idx); }
+
+function toggleFlag(idx) {
+  if (flags.has(idx)) flags.delete(idx); else flags.add(idx);
+  renderQuestion(idx);
+  updateHeaderCounts();
+}
+
+// ===================================================================
+// NAV GRID + STATS
+// ===================================================================
+function buildNavGrid() {
+  const grid = document.getElementById('nav-grid');
+  grid.innerHTML = questions.map((q, i) =>
+    `<button class="nav-btn" id="nav-${i}" onclick="jumpTo(${i})">${i + 1}</button>`
+  ).join('');
+}
+function updateNavGrid() {
+  questions.forEach((q, i) => {
+    const btn = document.getElementById('nav-' + i);
+    if (!btn) return;
+    btn.className = 'nav-btn';
+    if (isAnswered(i)) btn.classList.add('answered');
+    if (flags.has(i))  btn.classList.add('flagged-q');
+    if (i === currentQ) btn.classList.add('current');
+  });
+}
+function updateHeaderCounts() {
+  let answered = 0;
+  questions.forEach((q, i) => { if (isAnswered(i)) answered++; });
+  const unanswered = questions.length - answered;
+  document.getElementById('hdr-answered').textContent = `${answered}/${EXAM.total}`;
+  document.getElementById('hdr-flagged').textContent  = flags.size;
+  document.getElementById('stat-answered').textContent   = `${answered} / ${EXAM.total}`;
+  document.getElementById('stat-unanswered').textContent = unanswered;
+  document.getElementById('stat-flagged').textContent    = flags.size;
+  document.getElementById('mob-answered').textContent    = answered;
+  document.getElementById('progress-fill').style.width = `${(answered / questions.length) * 100}%`;
+  updateNavGrid();
+}
+
+// ===================================================================
+// SUBMIT
+// ===================================================================
+function trySubmit() {
+  let answered = 0;
+  questions.forEach((q, i) => { if (isAnswered(i)) answered++; });
+  const unanswered = questions.length - answered;
+  const body = document.getElementById('confirm-body');
+  body.innerHTML = unanswered > 0
+    ? `<div class="unanswered-list">You have <strong>${unanswered}</strong> unanswered question(s). Unanswered questions are marked incorrect.</div>Are you sure you want to submit? You cannot change your answers after submitting.`
+    : `All questions answered. Are you sure you want to submit? You cannot change your answers after submitting.`;
+  document.getElementById('confirm-modal').classList.add('show');
+}
+function closeModal()    { document.getElementById('confirm-modal').classList.remove('show'); }
+function confirmSubmit() { closeModal(); doSubmit(false); }
+
+function autoSubmit(msg) {
+  closeModal();
+  doSubmit(true);
+  if (msg) setTimeout(() => alert(msg), 100);
+}
+
+function arraysEqual(a, b) {
+  if (a.length !== b.length) return false;
+  const sa = a.slice().sort(), sb = b.slice().sort();
+  return sa.every((v, i) => v === sb[i]);
+}
+
+function doSubmit(auto) {
+  if (submitted && !auto) return;
+  submitted  = true;
+  examActive = false;
+  clearInterval(timerInterval);
+  removeVisibilityListeners();
+
+  let correct = 0;
+  const domainStats = {};
+  DOMAIN_ORDER.forEach(d => domainStats[d] = { correct: 0, total: 0 });
+  const qResults = [];
+
+  questions.forEach((q, idx) => {
+    const userAns   = answers[idx] || [];
+    const isCorrect = arraysEqual(userAns, q.correct);
+    if (isCorrect) correct++;
+    if (!domainStats[q.domain]) domainStats[q.domain] = { correct: 0, total: 0 };
+    domainStats[q.domain].total++;
+    if (isCorrect) domainStats[q.domain].correct++;
+    qResults.push({ idx, isCorrect, userAns });
+  });
+
+  const pct    = Math.round((correct / questions.length) * 100);
+  const scaled = Math.round(100 + (correct / questions.length) * 900);
+  const passed = scaled >= EXAM.passScaled;
+
+  results = { correct, total: questions.length, pct, scaled, passed, domainStats, qResults };
+  showResults(results);
+}
+
+// ===================================================================
+// RESULTS
+// ===================================================================
+function showResults(r) {
+  document.getElementById('exam-ui').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+
+  const badge = document.getElementById('result-badge');
+  badge.className = 'result-pass-badge ' + (r.passed ? 'badge-pass' : 'badge-fail');
+  badge.innerHTML = r.passed ? '✓ PASSED' : '✗ NOT PASSED';
+
+  const pctEl = document.getElementById('result-pct');
+  pctEl.className = 'result-pct ' + (r.passed ? 'pct-pass' : 'pct-fail');
+  pctEl.textContent = r.pct + '%';
+
+  document.getElementById('result-scaled').innerHTML =
+    `Scaled Score: <span>${r.scaled} / 1000</span> &nbsp;&middot;&nbsp; Pass: ${EXAM.passScaled}`;
+  document.getElementById('result-correct').innerHTML =
+    `<strong>${r.correct}</strong> of <strong>${r.total}</strong> questions correct`;
+
+  const rowsHtml = DOMAIN_ORDER.map(d => {
+    const s = r.domainStats[d] || { correct: 0, total: 0 };
+    const dp = s.total > 0 ? Math.round((s.correct / s.total) * 100) : 0;
+    let cls = 'dr-bad';
+    if (dp >= 72) cls = 'dr-good'; else if (dp >= 50) cls = 'dr-mid';
+    return `
+      <div class="domain-row-r">
+        <div class="dr-name">${DOMAIN_SHORT[d]}: ${d}</div>
+        <div class="dr-score">${s.correct}/${s.total}</div>
+        <div class="dr-pct ${cls}">${dp}%</div>
+      </div>`;
+  }).join('');
+  document.getElementById('domain-breakdown-rows').innerHTML = rowsHtml;
+  window.scrollTo(0, 0);
+}
+
+// ===================================================================
+// REVIEW MODE
+// ===================================================================
+function showReview() {
+  document.getElementById('result-screen').style.display = 'none';
+  document.getElementById('review-screen').style.display = 'block';
+
+  const html = questions.map((q, idx) => {
+    const userAns = (results.qResults[idx] && results.qResults[idx].userAns) || [];
+    const isCorrect = results.qResults[idx].isCorrect;
+
+    const optsHtml = q.options.map(opt => {
+      const isCorrectOpt = q.correct.includes(opt.id);
+      const isUserOpt    = userAns.includes(opt.id);
+      let cls = 'no-select';
+      let icon = '';
+      if (isCorrectOpt) { cls += ' correct-ans'; icon = '✓'; }
+      else if (isUserOpt) { cls += ' wrong-ans'; icon = '✗'; }
+      return `
+        <li class="option-item ${cls}">
+          <span class="opt-letter">${opt.id.toUpperCase()}</span>
+          <span class="opt-label">${escapeHtml(opt.text)}</span>
+          ${icon ? `<span class="opt-icon">${icon}</span>` : ''}
+        </li>`;
+    }).join('');
+
+    const userTxt = userAns.length
+      ? userAns.map(a => a.toUpperCase()).sort().join(', ')
+      : '— (unanswered)';
+    const correctTxt = q.correct.map(a => a.toUpperCase()).sort().join(', ');
+
+    return `
+      <div class="review-q-card ${isCorrect ? 'rq-correct' : 'rq-wrong'}">
+        <div class="rq-header">
+          <span class="q-num-badge">Question ${idx + 1}</span>
+          <span class="domain-tag">${DOMAIN_SHORT[q.domain]}</span>
+          ${q.type === 'multi' ? '<span class="multi-tag">MULTI-SELECT</span>' : ''}
+          <span class="rq-result-tag ${isCorrect ? 'rq-correct-tag' : 'rq-wrong-tag'}">${isCorrect ? '✓ Correct' : '✗ Incorrect'}</span>
+        </div>
+        <div class="question-text">${escapeHtml(q.question)}</div>
+        <ul class="options-list">${optsHtml}</ul>
+        <div style="margin-top:14px;font-size:13.5px;color:var(--text-2);">
+          Your answer: <strong style="color:${isCorrect ? 'var(--correct)' : 'var(--red)'}">${userTxt}</strong>
+          &nbsp;·&nbsp; Correct answer: <strong style="color:var(--correct)">${correctTxt}</strong>
+        </div>
+        <div class="explanation-box show">
+          <div class="exp-header">EXPLANATION</div>
+          <div class="exp-text">${escapeHtml(q.explanation)}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('review-wrapper').innerHTML = html;
+  window.scrollTo(0, 0);
+}
+function backToResults() {
+  document.getElementById('review-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// ===================================================================
+// TAB-SWITCH DETECTION
+// ===================================================================
+function handleVisibilityChange() {
+  if (!examActive || submitted) return;
+  if (document.visibilityState === 'hidden' || document.hidden) {
+    blurWarnings++;
+    const remaining = EXAM.maxBlur - blurWarnings;
+    const msg = document.getElementById('blur-count-msg');
+    if (remaining > 0) {
+      msg.textContent = `Warning ${blurWarnings} of ${EXAM.maxBlur}. ${remaining} more warning(s) and your exam will be auto-submitted.`;
+    } else {
+      msg.textContent = `Maximum warnings reached. Your exam is being submitted now.`;
+    }
+    document.getElementById('blur-overlay').classList.add('show');
+    if (blurWarnings >= EXAM.maxBlur) {
+      setTimeout(() => {
+        document.getElementById('blur-overlay').classList.remove('show');
+        autoSubmit('Too many tab switches. Exam submitted automatically.');
+      }, 2500);
+    }
+  }
+}
+function attachVisibilityListeners() {
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  window.addEventListener('blur', handleVisibilityChange);
+}
+function removeVisibilityListeners() {
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
+  window.removeEventListener('blur', handleVisibilityChange);
+}
+function returnToExam() {
+  document.getElementById('blur-overlay').classList.remove('show');
+}
+
+// ===================================================================
+// UTILITIES
+// ===================================================================
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// Discourage copying / right-click during the exam
+document.addEventListener('contextmenu', e => { if (examActive) e.preventDefault(); });
+document.addEventListener('keydown', e => {
+  if (!examActive) return;
+  if (e.key === 'ArrowRight') goToNext();
+  if (e.key === 'ArrowLeft')  goToPrev();
+});
+</script>
+</body>
+</html>
